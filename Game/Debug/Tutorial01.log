@@ -1,17 +1,16 @@
-﻿Build started 19/02/2015 02:57:58.
+﻿Build started 24/02/2015 05:26:24.
      1>Project "C:\Users\David_000\Documents\SimWorlds\Game\Tutorial01.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\Inc /I..\DXUT\Core /I..\DXUT\Optional /ZI /nologo /W4 /WX- /Od /Oi /Oy- /D WIN32 /D _DEBUG /D DEBUG /D PROFILE /D _WINDOWS /D _WIN32_WINNT=0x0600 /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /openmp- /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt  VBSphere.cpp
-         VBSphere.cpp
-     1>c:\users\david_000\documents\simworlds\game\constantbuffer.h(23): warning C4324: 'ConstantBuffer' : structure was padded due to __declspec(align())
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\Inc /I..\DXUT\Core /I..\DXUT\Optional /ZI /nologo /W4 /WX- /Od /Oi /Oy- /D WIN32 /D _DEBUG /D DEBUG /D PROFILE /D _WINDOWS /D _WIN32_WINNT=0x0600 /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /openmp- /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt  ParticleSpawner.cpp
+         ParticleSpawner.cpp
          c:\program files (x86)\windows kits\8.1\include\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-     1>c:\users\david_000\documents\simworlds\game\vbsphere.h(21): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\david_000\documents\simworlds\game\vbsphere.cpp(20): warning C4244: '=' : conversion from 'int' to 'WORD', possible loss of data
-     1>c:\users\david_000\documents\simworlds\game\vbsphere.cpp(93): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\david_000\documents\simworlds\game\vbsphere.cpp(95): warning C4244: 'initializing' : conversion from 'int' to 'WORD', possible loss of data
-     1>c:\users\david_000\documents\simworlds\game\vbsphere.cpp(96): warning C4244: 'initializing' : conversion from 'int' to 'WORD', possible loss of data
-     1>c:\users\david_000\documents\simworlds\game\vbsphere.cpp(97): warning C4244: 'initializing' : conversion from 'int' to 'WORD', possible loss of data
-     1>c:\users\david_000\documents\simworlds\game\vbsphere.cpp(127): warning C4100: '_time' : unreferenced formal parameter
+     1>c:\users\david_000\documents\simworlds\game\constantbuffer.h(23): warning C4324: 'ConstantBuffer' : structure was padded due to __declspec(align())
+     1>c:\users\david_000\documents\simworlds\game\vbsphere.h(48): warning C4512: 'VBSphere' : assignment operator could not be generated
+                 c:\users\david_000\documents\simworlds\game\vbsphere.h(7) : see declaration of 'VBSphere'
+     1>c:\users\david_000\documents\simworlds\game\vbsphere.h(23): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\david_000\documents\simworlds\game\particlespawner.cpp(53): warning C4258: 'it' : definition from the for loop is ignored; the definition from the enclosing scope is used
+                 c:\users\david_000\documents\simworlds\game\particlespawner.cpp(49) : definition of 'it' ignored
+                 c:\users\david_000\documents\simworlds\game\particlespawner.cpp(47) : definition of 'it' used
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\David_000\Documents\SimWorlds\Debug\Game.exe" /INCREMENTAL /NOLOGO d3d11.lib d3dcompiler.lib dxguid.lib winmm.lib comctl32.lib DirectXTK.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib DXUT.lib DXUTOpt.lib usp10.lib dinput8.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"C:\Users\David_000\Documents\SimWorlds\Debug\Game.pdb" /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\David_000\Documents\SimWorlds\Debug\Game.lib" /MACHINE:X86 /SAFESEH  Debug\Tutorial01.res
          Debug\camera.obj
@@ -21,6 +20,7 @@
          Debug\gameobject.obj
          Debug\GameObject2D.obj
          Debug\light.obj
+         Debug\ParticleSpawner.obj
          Debug\snail.obj
          Debug\terrain.obj
          Debug\tpscamera.obj
@@ -33,4 +33,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:14.91
+Time Elapsed 00:00:01.62

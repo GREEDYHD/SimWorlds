@@ -12,4 +12,5 @@
 #include "VBGO.h"
 #include "fileVBGO.h"
 #include "VBSphere.h"
+#include "ParticleSpawner.h"
 #endif

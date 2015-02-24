@@ -9,7 +9,7 @@ using namespace SimpleMath;
 
 struct myVertex
 {
-    Vector3 Pos;
+    Vector3 Position;
 	Vector3 Norm;
     Color Color;
 	Vector2 texCoord;

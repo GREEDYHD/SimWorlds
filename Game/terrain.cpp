@@ -1,8 +1,8 @@
 #include "terrain.h"
 
-Terrain::Terrain(string _fileName, ID3D11Device* _pd3dDevice, MyEffectFactory* _EF, Vector3 _pos, float _pitch, float _yaw, float _roll, Vector3 _scale) :CMOGO(_fileName, _pd3dDevice, _EF)
+Terrain::Terrain(string _fileName, ID3D11Device* _pd3dDevice, MyEffectFactory* _EF, Vector3 _Position, float _pitch, float _yaw, float _roll, Vector3 _scale) :CMOGO(_fileName, _pd3dDevice, _EF)
 {
-	m_pos	= _pos;
+	m_Position	= _Position;
 	m_pitch = _pitch;
 	m_roll	= _roll;
 	m_yaw	= _yaw;

@@ -13,7 +13,7 @@ public:
 
 protected:
 	GameObject*	m_targetObject;
-	Vector3	m_dpos;
+	Vector3	m_dPosition;
 };
 
 #endif

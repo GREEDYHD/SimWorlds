@@ -20,8 +20,8 @@ public:
 	virtual void Tick(GameData* _GD );
 	virtual void Draw(DrawData* _DD) = 0;
 
-	Vector3 GetPos(){ return m_pos; }
-	void SetPos(Vector3 _pos){ m_pos = _pos; }
+	Vector3 GetPos(){ return m_Position; }
+	void SetPos(Vector3 _Position){ m_Position = _Position; }
 
 	float GetPitch(){ return m_pitch; }
 	float GetYaw(){ return m_yaw; }
@@ -34,9 +34,12 @@ public:
 
 	void SetScale(Vector3 _scale){ m_scale = _scale; }
 	void SetScale(float _scale){ m_scale = _scale * Vector3::One; }
+	
+	Vector3 GetPosition(){ return m_Position; }
 
 protected:
-	Vector3 m_pos;
+	Vector3 m_Position;
+	Vector3 m_Velocity;
 	float m_pitch, m_yaw, m_roll;
 	Vector3 m_scale;
 

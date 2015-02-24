@@ -52,41 +52,41 @@ Snail::Snail(ID3D11Device* _GD, std::string _filename, int _sections, float _sca
 	//build the vertices using these transforms and the line
 	//two trinagles for each point scale, turn ad step up
 	int vert = 0;
-	Vector3 calcPos;
+	Vector3 calcPosition;
 	//transform up the steps
 	for (int i = 0; i < (_sections - 1) ; i++)
 	{
 		for (int j = 0 ; j < (width -1); j++)
 		{
 			vertices[vert].Color = Color::Lerp(_col1, _col2, (float)i / (float)_sections);
-			//vertices[vert++].Pos = Vector3((float)i, (float)j, 0.0f);
-			calcPos = Vector3(baseLine[j].x, baseLine[j].y, 0.0f);
-			vertices[vert++].Pos = Vector3::Transform(calcPos, transforms[i]);
+			//vertices[vert++].Position = Vector3((float)i, (float)j, 0.0f);
+			calcPosition = Vector3(baseLine[j].x, baseLine[j].y, 0.0f);
+			vertices[vert++].Position = Vector3::Transform(calcPosition, transforms[i]);
 
 			vertices[vert].Color = Color::Lerp(_col1, _col2, (float)(i + 1) / (float)_sections);
-			calcPos = Vector3(baseLine[j].x, baseLine[j].y, 0.0f);
-			vertices[vert++].Pos = Vector3::Transform(calcPos, transforms[i+1]);
-			//vertices[vert++].Pos = Vector3((float)(i + 1), (float)j, 0.0f);
+			calcPosition = Vector3(baseLine[j].x, baseLine[j].y, 0.0f);
+			vertices[vert++].Position = Vector3::Transform(calcPosition, transforms[i+1]);
+			//vertices[vert++].Position = Vector3((float)(i + 1), (float)j, 0.0f);
 
 			vertices[vert].Color = Color::Lerp(_col1, _col2, (float)i / (float)_sections);
-			//vertices[vert++].Pos = Vector3((float)i, (float)(j + 1), 0.0f);
-			calcPos = Vector3(baseLine[j+1].x, baseLine[j+1].y, 0.0f);
-			vertices[vert++].Pos = Vector3::Transform(calcPos, transforms[i]);
+			//vertices[vert++].Position = Vector3((float)i, (float)(j + 1), 0.0f);
+			calcPosition = Vector3(baseLine[j+1].x, baseLine[j+1].y, 0.0f);
+			vertices[vert++].Position = Vector3::Transform(calcPosition, transforms[i]);
 			
 			vertices[vert].Color = Color::Lerp(_col1, _col2, (float)(i + 1) / (float)_sections);
-			//vertices[vert++].Pos = Vector3((float)(i + 1), (float)j, 0.0f);
-			calcPos = Vector3(baseLine[j].x, baseLine[j].y, 0.0f);
-			vertices[vert++].Pos = Vector3::Transform(calcPos, transforms[i+1]);
+			//vertices[vert++].Position = Vector3((float)(i + 1), (float)j, 0.0f);
+			calcPosition = Vector3(baseLine[j].x, baseLine[j].y, 0.0f);
+			vertices[vert++].Position = Vector3::Transform(calcPosition, transforms[i+1]);
 
 			vertices[vert].Color = Color::Lerp(_col1, _col2, (float)(i + 1) / (float)_sections);
-			//vertices[vert++].Pos = Vector3((float)(i + 1), (float)(j + 1), 0.0f);
-			calcPos = Vector3(baseLine[j+1].x, baseLine[j+1].y, 0.0f);
-			vertices[vert++].Pos = Vector3::Transform(calcPos, transforms[i + 1]);
+			//vertices[vert++].Position = Vector3((float)(i + 1), (float)(j + 1), 0.0f);
+			calcPosition = Vector3(baseLine[j+1].x, baseLine[j+1].y, 0.0f);
+			vertices[vert++].Position = Vector3::Transform(calcPosition, transforms[i + 1]);
 
 			vertices[vert].Color = Color::Lerp(_col1, _col2, (float)i / (float)_sections);
-			//vertices[vert++].Pos = Vector3((float)i, (float)(j + 1), 0.0f);
-			calcPos = Vector3(baseLine[j+1].x, baseLine[j+1].y, 0.0f);
-			vertices[vert++].Pos = Vector3::Transform(calcPos, transforms[i]);
+			//vertices[vert++].Position = Vector3((float)i, (float)(j + 1), 0.0f);
+			calcPosition = Vector3(baseLine[j+1].x, baseLine[j+1].y, 0.0f);
+			vertices[vert++].Position = Vector3::Transform(calcPosition, transforms[i]);
 
 		}
 	}
@@ -100,8 +100,8 @@ Snail::Snail(ID3D11Device* _GD, std::string _filename, int _sections, float _sca
 
 		//build normals
 		Vector3 norm;
-		Vector3 vec1 = vertices[V1].Pos - vertices[V2].Pos;
-		Vector3 vec2 = vertices[V3].Pos - vertices[V2].Pos;
+		Vector3 vec1 = vertices[V1].Position - vertices[V2].Position;
+		Vector3 vec2 = vertices[V3].Position - vertices[V2].Position;
 		norm = vec2.Cross(vec1);
 		norm.Normalize();
 

@@ -57,7 +57,7 @@ FileVBGO::FileVBGO(string _fileName, ID3D11Device* _GD)
 	int dummy;
 	for (int i = 0; i< numVerts; i++)
 	{
-		meshFile >> dummy >> vertices[i].Pos.x >> vertices[i].Pos.y >> vertices[i].Pos.z;
+		meshFile >> dummy >> vertices[i].Position.x >> vertices[i].Position.y >> vertices[i].Position.z;
 
 		if (m_texCoords)
 		{
@@ -88,8 +88,8 @@ FileVBGO::FileVBGO(string _fileName, ID3D11Device* _GD)
 
 		//build normals
 		Vector3 norm;
-		Vector3 vec1 = vertices[V1].Pos - vertices[V2].Pos;
-		Vector3 vec2 = vertices[V3].Pos - vertices[V2].Pos;
+		Vector3 vec1 = vertices[V1].Position - vertices[V2].Position;
+		Vector3 vec2 = vertices[V3].Position - vertices[V2].Position;
 		norm = vec1.Cross(vec2);
 		norm.Normalize();
 

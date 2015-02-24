@@ -1,0 +1,5 @@
+C:\Users\David_000\Documents\SimWorlds\MakeSpriteFont\bin\Debug\MakeSpriteFont.exe
+C:\Users\David_000\Documents\SimWorlds\MakeSpriteFont\bin\Debug\MakeSpriteFont.pdb
+C:\Users\David_000\Documents\SimWorlds\MakeSpriteFont\obj\Debug\MakeSpriteFont.csprojResolveAssemblyReference.cache
+C:\Users\David_000\Documents\SimWorlds\MakeSpriteFont\obj\Debug\MakeSpriteFont.exe
+C:\Users\David_000\Documents\SimWorlds\MakeSpriteFont\obj\Debug\MakeSpriteFont.pdb

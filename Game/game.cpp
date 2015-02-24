@@ -54,30 +54,35 @@ Game::Game(ID3D11Device* _pd3dDevice, HINSTANCE _hInstance) :m_playTime(0), m_my
 
 	//create a base camera
 	m_cam = new Camera(0.25f * XM_PI, 640.0f / 480.0f, 1.0f, 10000.0f, Vector3::Zero, Vector3::UnitY);
-	m_cam->SetPos( Vector3(0.0f, 300.0f,300.0f) );
+	m_cam->SetPos( Vector3(0.0f, 0.0f,300.0f) );
 	m_GameObjects.push_back(m_cam);
 
 	Turret_Base* base = new Turret_Base("treasure_chest.cmo", _pd3dDevice, m_myEF);
 	m_GameObjects.push_back(base);
 	base->SetPos(Vector3(0.0f, 0.0f, 0.0f));
+	base->SetScale(0.001f);
 
-	
-	m_Light = new Light(Vector3(0.0f, 100.0f, 160.0f), Color(1.0f, 1.0f, 1.0f, 1.0f), Color(0.4f, 0.1f, 0.1f, 1.0f));
+	m_Light = new Light(Vector3(0.0f, 100.0f, 160.0f), Color(1.0f, 1.0f, 1.0f, 1.0f), Color(1.0f, 1.0f, 1.0f, 1.0f));
 	m_GameObjects.push_back(m_Light);
-	
-	VBSphere* Sphere = new VBSphere();
-	Sphere->init(Vector3(0.0f, 0.0f, 0.0f), 11, _pd3dDevice, Vector3(0.0f, 0.0f, 0.0f));
-	m_GameObjects.push_back(Sphere);
 
-	Vector3 m_point = Sphere->GetPos();
-	VBSphere* SphereTwo = new VBSphere();
-	SphereTwo->init(Vector3(10.0f, 0.0f, 0.0f), 11, _pd3dDevice, Vector3(0.0f, 0.0f, 0.0f));
-	m_GameObjects.push_back(SphereTwo);
-	
-	/*Vector3 m_pointTwo = Sphere->GetPos();
-	VBSphere* SphereThree = new VBSphere();
-	SphereThree->init(Vector3(10.0f, 0.0f, 100.0f), 11, _pd3dDevice, Vector3(0.0f, 0.0f, 0.0f));
-	m_GameObjects.push_back(SphereThree);*/
+	m_GameObjects.push_back(new ParticleSpawner(_pd3dDevice));
+
+	m_TPSCam = new TPSCamera(0.25f * XM_PI, 640.0f / 480.0f, 1.0f, 10000.0f, base, Vector3::UnitY, Vector3(-200.0f, 100.0f, 0.0f));
+	m_GameObjects.push_back(m_TPSCam);
+
+	//VBSphere* Sphere = new VBSphere();
+	//Sphere->init(Vector3(0.0f, 0.0f, 0.0f), 11, _pd3dDevice, Vector3(0.0f, 0.0f, 0.0f));
+	//m_GameObjects.push_back(Sphere);
+
+	//Vector3 m_point = Sphere->GetPos();
+	//VBSphere* SphereTwo = new VBSphere();
+	//SphereTwo->init(Vector3(100.0f, 0.0f, 0.0f), 11, _pd3dDevice, m_point);
+	//m_GameObjects.push_back(SphereTwo);
+	//
+	//Vector3 m_pointTwo = Sphere->GetPos();
+	//VBSphere* SphereThree = new VBSphere();
+	//SphereThree->init(Vector3(150.0f, 0.0f, 0.0f), 11, _pd3dDevice, m_pointTwo);
+	//m_GameObjects.push_back(SphereThree);
 
 	/*
 	Terrain* terrain = new Terrain("table.cmo", _pd3dDevice, m_myEF,Vector3(100.0f,0.0f,100.0f), 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
@@ -92,11 +97,7 @@ Game::Game(ID3D11Device* _pd3dDevice, HINSTANCE _hInstance) :m_playTime(0), m_my
 	Box->SetPitch( XM_PIDIV4 );
 	Box->SetScale( 20.0f );
 
-	Pillow* pillow = new Pillow();
-	pillow->init(11, _pd3dDevice);
-	pillow->SetPos( Vector3(-100.0f, 0.0f, -100.0f) );
-	pillow->SetScale(4.0f);
-	m_GameObjects.push_back(pillow);
+	
 
 	SpikedVB* spikes = new SpikedVB();
 	spikes->init(11, _pd3dDevice);
@@ -121,8 +122,7 @@ Game::Game(ID3D11Device* _pd3dDevice, HINSTANCE _hInstance) :m_playTime(0), m_my
 	logo->SetPos(200.0f * Vector2::One);
 	m_GameObject2Ds.push_back(logo);
 	*/
-	m_TPSCam = new TPSCamera(0.25f * XM_PI, 640.0f / 480.0f, 1.0f, 10000.0f, Sphere, Vector3::UnitY, Vector3(-200.0f, 100.0f, 0.0f));
-	m_GameObjects.push_back(m_TPSCam);
+	
 	
 	ID3D11DeviceContext* pd3dImmediateContext;
 	_pd3dDevice->GetImmediateContext(&pd3dImmediateContext);

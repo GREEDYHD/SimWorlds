@@ -8,11 +8,13 @@ class VBSphere : public VBGO
 {
 public:
 	VBSphere(){};
-	virtual ~VBSphere(){};
+	VBSphere(ID3D11Device* pd3dDevice);
+	~VBSphere();
 
-	void init(Vector3 _pos, int _size, ID3D11Device* GD, Vector3 _point);
-	void Tick(GameData* GD);
+	void init();
+	void Tick(GameData* GD, Vector3 _ParticlesPosition);
 	void orbit(float _time);
+	void Spawn();
 
 protected:
 
@@ -23,18 +25,26 @@ protected:
 			m_vertices[i].Color *= ((i / 3) % 2) ? 1.0f : 0.5f;
 			m_vertices[i].Color.w = 1.0f;
 
-			Vector3 vertPos = m_vertices[i].Pos;
-			Vector3 spherePos = m_vertices[i].Pos;
+			Vector3 vertPosition = m_vertices[i].Position;
+			Vector3 spherePosition = m_vertices[i].Position;
 
-			spherePos.Normalize();
+			spherePosition.Normalize();
 
-			m_vertices[i].Pos = 3.0f * spherePos;
+			m_vertices[i].Position = 3.0f * spherePosition;
 		}
 	}
 	VBSphere* m_parent;
 	Vector3 m_point;
 	int m_size;
 	myVertex* m_vertices;
+	float time;
+	float orbitalDistance;
+	Vector3 m_Force;
+	const double GravitaionalConstant = 10;// 0.000000000066742;
+	Vector3 m_XYZ_Distance;
+	float m_distance;
+	float m_GForce;
+	Vector3 Theta;
 };
 
 #endif
