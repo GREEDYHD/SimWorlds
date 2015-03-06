@@ -25,7 +25,8 @@ protected:
 	int maxParticles;
 	vector<VBSphere *> Particles;
 	Vector3 temp;
-	bool m_run;
+	bool m_runningSimulation;
+	int angleA, angleB;
 };
 
 

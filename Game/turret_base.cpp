@@ -60,7 +60,7 @@ void Turret_Base::Tick(GameData* _GD)
 			break;
 		}
 
-	}	*/
+	}*/
 	
 	float length2 = (m_Position.z * m_Position.z + m_Position.x * m_Position.x);
 	float max = 1000.0f;

@@ -42,9 +42,9 @@ protected:
 	Vector3 m_Force;
 	const double GravitaionalConstant = 10;// 0.000000000066742;
 	Vector3 m_XYZ_Distance;
-	float m_distance;
+	float m_distanceSquared;
 	float m_GForce;
-	Vector3 Theta;
+	Vector3 m_Offset;
 };
 
 #endif
