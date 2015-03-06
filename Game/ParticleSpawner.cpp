@@ -5,7 +5,7 @@
 ParticleSpawner::ParticleSpawner(ID3D11Device* _pd3dDevice)
 {
 	m_Position = Vector3(0.0f, 0.0f, 0.0f);
-	maxParticles = 50;
+	maxParticles = 10;
 	temp = Vector3(0.0f, 0.0f, 0.0f);
 	m_runningSimulation = false;
 	for (int i = 0; i < maxParticles; i++)
@@ -49,6 +49,7 @@ void ParticleSpawner::Tick(GameData* GD)
 				if (it != it2)
 				{
 					temp = XMVectorAdd((*it)->GetPos(), temp);
+					(*it)->CalculateVelocity(temp);
 				}
 			}
 		}

@@ -31,18 +31,53 @@ VBSphere::VBSphere(ID3D11Device* _pd3dDevice)
 	}
 	vert = 0;
 
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, -m_Offset.y, -m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, -m_Offset.z);
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, -m_Offset.z);
 
-	/*m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, m_Offset.y, -m_Offset.z);
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, -m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, -m_Offset.z);
+
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, m_Offset.z);
 	m_vertices[vert++].Position = Vector3(-m_Offset.x, -m_Offset.y, m_Offset.z);
-	m_vertices[vert++].Position = Vector3(-m_Offset.x, -m_Offset.y, -m_Offset.z);*/
 
-	m_vertices[vert++].Position = Vector3(-m_Offset.x, -m_Offset.y, -m_Offset.z);//-,-,-
-	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, -m_Offset.z);//+,-,-
-	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, -m_Offset.z);//+,+,-
+	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, m_Offset.y, m_Offset.z);
 
-	m_vertices[vert++].Position = Vector3(m_Offset.x, m_Offset.y, -m_Offset.z);//
-	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, -m_Offset.z);//
-	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, -m_Offset.z);//
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, -m_Offset.y, -m_Offset.z);
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, -m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, -m_Offset.z);
+
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, -m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, -m_Offset.z);
+
+	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, -m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, m_Offset.y, -m_Offset.z);
+
+	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, m_Offset.y, -m_Offset.z);
+
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, -m_Offset.z);
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, m_Offset.y, -m_Offset.z);
+
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, m_Offset.y, -m_Offset.z);
+
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, -m_Offset.y, -m_Offset.z);
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, -m_Offset.y, m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, -m_Offset.z);
+
+	m_vertices[vert++].Position = Vector3(-m_Offset.x, -m_Offset.y, -m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, -m_Offset.z);
+	m_vertices[vert++].Position = Vector3(m_Offset.x, -m_Offset.y, m_Offset.z);
 
 	/*
 		//calculate number of vertices and primatives
@@ -162,34 +197,23 @@ VBSphere::~VBSphere()
 
 void VBSphere::Tick(GameData* GD, Vector3 _ParticlesPosition)
 {	
-	_ParticlesPosition = Vector3(0, 0, 0);
-
-	m_XYZ_Distance = XMVectorSubtract(_ParticlesPosition, m_Position);
-
-	m_distanceSquared = m_XYZ_Distance.LengthSquared();
-	
-	m_GForce = 0.1;
-
-	m_XYZ_Distance.Normalize();
-
-	m_Velocity += m_XYZ_Distance * m_GForce;
-	
 	m_Position += m_Velocity;
-	
 	VBGO::Tick(GD);
 }
 
 void VBSphere::Spawn()
 {
-	m_Position = Vector3(150, 20 * (((float)rand() / (float)RAND_MAX) - 0.5f), 0.0f);
-	//m_Position = Vector3(100 * (((float)rand() / (float)RAND_MAX) - 0.5f), 100 * (((float)rand() / (float)RAND_MAX) - 0.5f), -100 * (((float)rand() / (float)RAND_MAX) - 0.5f));
-	m_Velocity = Vector3(10.0f, 3.0f, 0.0f);
-	//m_Velocity = Vector3(30 * (((float)rand() / (float)RAND_MAX) - 0.5f), 10 * (((float)rand() / (float)RAND_MAX) - 0.5f), -10 * (((float)rand() / (float)RAND_MAX) - 0.5f));
+	//m_Position = Vector3(500, 1.0f, 0);
+	m_Position = Vector3(100 * (((float)rand() / (float)RAND_MAX) - 0.5f), 100 * (((float)rand() / (float)RAND_MAX) - 0.5f), -100 * (((float)rand() / (float)RAND_MAX) - 0.5f));
+	m_Velocity = Vector3(0.0f, 0.0f, 0.0f);
+	//m_Velocity = Vector3(1 * (((float)rand() / (float)RAND_MAX) - 0.5f), 1 * (((float)rand() / (float)RAND_MAX) - 0.5f), -1 * (((float)rand() / (float)RAND_MAX) - 0.5f));
 }
 
-void VBSphere::orbit(float _time)
+void VBSphere::CalculateVelocity(Vector3 _ParticlesPosition)
 {
-	m_Position.x = m_point.x + (10.0f * (orbitalDistance * sin(time)));
-	m_Position.z = m_point.z + (10.0f * (orbitalDistance * cos(time)));
-	m_Position.y = m_point.y + 10.0f * (orbitalDistance * (sin(time) + cos(time)));
+	m_XYZ_Distance = XMVectorSubtract(_ParticlesPosition, m_Position);
+	m_distanceSquared = m_XYZ_Distance.LengthSquared();
+	m_GForce = 100000 / (m_distanceSquared);
+	m_XYZ_Distance.Normalize();
+	m_Velocity += m_XYZ_Distance * m_GForce;
 }
