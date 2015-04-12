@@ -50,88 +50,39 @@ Game::Game(ID3D11Device* _pd3dDevice, HINSTANCE _hInstance) :m_playTime(0), m_my
 	m_GD->keyboard = m_keyboardState;
 	m_GD->prevKeyboard = m_prevKeyboardState;
 	m_GD->mouse = &m_mouse_state;
-	m_GD->GS = GS_PLAY_TPS_CAM;
+	m_GD->prevMouse = &m_prevMouseState;
+	m_GD->GS = GS_PLAY_MAIN_CAM;
+	m_GD->screenDimensions = screenDimensionsVar;
+
+	screenDimensionsVar = &Vector2(1920, 1080);
 
 	//create a base camera
-	m_cam = new Camera(0.25f * XM_PI, 640.0f / 480.0f, 1.0f, 10000.0f, Vector3::Zero, Vector3::UnitY);
-	m_cam->SetPos( Vector3(0.0f, 0.0f,1500.0f) );
+	m_cam = new Camera(0.25f * XM_PI, (*m_GD->screenDimensions).x / (*m_GD->screenDimensions).y , 1.0f, 10000.0f, Vector3::Zero, Vector3::UnitY);
+	m_cam->SetPos( Vector3(0.0f, 1.0f,1500.0f));
 	m_GameObjects.push_back(m_cam);
 
-	Turret_Base* base = new Turret_Base("treasure_chest.cmo", _pd3dDevice, m_myEF);
-	m_GameObjects.push_back(base);
-	base->SetPos(Vector3(0.0f, 0.0f, 0.0f));
-	base->SetScale(1.1f);
+	/*VBSphere* Sun = new VBSphere(_pd3dDevice, Vector3(0.0f, 0.0f, 0.0f));
+	m_GameObjects.push_back(Sun);
+	Sun->SetPos(Vector3(0.0f, 0.0f, 0.0f));
+	Sun->SetScale(1.0f);*/
 
-	m_Light = new Light(Vector3(0.0f, 100.0f, 160.0f), Color(1.0f, 1.0f, 1.0f, 1.0f), Color(1.0f, 1.0f, 1.0f, 1.0f));
+	m_Light = new Light(Vector3(0.0f, 0.0f, 0.0f), Color(1.0f, 1.0f, 1.0f, 1.0f), Color(1.0f, 1.0f, 1.0f, 1.0f));
 	m_GameObjects.push_back(m_Light);
 
 	ParticleSpawner* spawner = new ParticleSpawner(_pd3dDevice);
 	m_GameObjects.push_back(spawner);
+	m_GD->pSpawner = spawner;
 
-	m_TPSCam = new TPSCamera(0.25f * XM_PI, 640.0f / 480.0f, 1.0f, 10000.0f, spawner, Vector3::UnitY, Vector3(0.1f, 1500.0f, 0.0f));
+	m_TPSCam = new TPSCamera(0.25f * XM_PI, (*m_GD->screenDimensions).x / (*m_GD->screenDimensions).y , 1.0f, 10000.0f, m_Light, Vector3::UnitY, Vector3(0.0f, 0.0f, 2000.0f));
 	m_GameObjects.push_back(m_TPSCam);
 
-	//VBSphere* Sphere = new VBSphere();
-	//Sphere->init(Vector3(0.0f, 0.0f, 0.0f), 11, _pd3dDevice, Vector3(0.0f, 0.0f, 0.0f));
-	//m_GameObjects.push_back(Sphere);
-
-	//Vector3 m_point = Sphere->GetPos();
-	//VBSphere* SphereTwo = new VBSphere();
-	//SphereTwo->init(Vector3(100.0f, 0.0f, 0.0f), 11, _pd3dDevice, m_point);
-	//m_GameObjects.push_back(SphereTwo);
-	//
-	//Vector3 m_pointTwo = Sphere->GetPos();
-	//VBSphere* SphereThree = new VBSphere();
-	//SphereThree->init(Vector3(150.0f, 0.0f, 0.0f), 11, _pd3dDevice, m_pointTwo);
-	//m_GameObjects.push_back(SphereThree);
-
-	/*
-	Terrain* terrain = new Terrain("table.cmo", _pd3dDevice, m_myEF,Vector3(100.0f,0.0f,100.0f), 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
-	m_GameObjects.push_back(terrain);
-	
-	FileVBGO* terrainBox = new FileVBGO("../Assets/terrainTex.txt", _pd3dDevice);
-	m_GameObjects.push_back(terrainBox);
-
-	FileVBGO* Box = new FileVBGO("../Assets/cube.txt", _pd3dDevice);
-	m_GameObjects.push_back(Box);
-	Box->SetPos(Vector3(0.0f, 0.0f, -100.0f));
-	Box->SetPitch( XM_PIDIV4 );
-	Box->SetScale( 20.0f );
-
-	
-
-	SpikedVB* spikes = new SpikedVB();
-	spikes->init(11, _pd3dDevice);
-	spikes->SetPos(Vector3(0.0f, 0.0f, 100.0f));
-	spikes->SetScale(4.0f);
-	m_GameObjects.push_back(spikes);
-
-	Spiral* spiral = new Spiral();
-	spiral->init(11, _pd3dDevice);
-	spiral->SetPos(Vector3(-100.0f, 0.0f, 0.0f));
-	spiral->SetScale(4.0f);
-	m_GameObjects.push_back(spiral);
-
-
-
-	Snail* snail = new Snail(_pd3dDevice, "../Assets/baseline.txt", 150, 0.98, 0.09f * XM_PI , 0.4f, Color(1.0f, 0.0f, 0.0f, 1.0f), Color(0.0f, 0.0f, 1.0f, 1.0f));
-	snail->SetPos(Vector3(-100.0f, 0.0f, 100.0f));
-	snail->SetScale(2.0f);
-	m_GameObjects.push_back(snail);
-
-	GameObject2D* logo = new GameObject2D("logo", _pd3dDevice);
-	logo->SetPos(200.0f * Vector2::One);
-	m_GameObject2Ds.push_back(logo);
-	*/
-	
-	
 	ID3D11DeviceContext* pd3dImmediateContext;
 	_pd3dDevice->GetImmediateContext(&pd3dImmediateContext);
 	
 	// Create DirectXTK spritebatch stuff
 	m_DD2D = new DrawData2D();
 	m_DD2D->m_Sprites.reset(new SpriteBatch(pd3dImmediateContext));
-	m_DD2D->m_Font.reset(new SpriteFont(_pd3dDevice, L"italic.spritefont"));
+	m_DD2D->m_Font.reset(new SpriteFont(_pd3dDevice, L"DavesFont.spritefont"));
 		
 	//create Draw Data
 	m_DD = new DrawData();
@@ -141,6 +92,7 @@ Game::Game(ID3D11Device* _pd3dDevice, HINSTANCE _hInstance) :m_playTime(0), m_my
 
 	//initilise the defaults for the VBGOs
 	VBGO::Init(_pd3dDevice);
+	simulationSpeed = 1;
 
 }
 
@@ -194,11 +146,6 @@ bool Game::update()
 		return false;
 	}
 
-	if (m_mouse_state.rgbButtons[2] & 0x80)
-	{
-		return false;
-	}
-
 	if ((m_keyboardState[DIK_SPACE] & 0x80) && !(m_prevKeyboardState[DIK_SPACE] & 0x80))
 	{
 		if (m_GD->GS == GS_PLAY_MAIN_CAM)
@@ -210,7 +157,14 @@ bool Game::update()
 			m_GD->GS = GS_PLAY_MAIN_CAM;
 		}
 	}
-
+	if ((m_keyboardState[DIK_PERIOD] & 0x80) && !(m_prevKeyboardState[DIK_PERIOD] & 0x80) && simulationSpeed != 32)
+	{
+		simulationSpeed *= 2;
+	}
+	if ((m_keyboardState[DIK_COMMA] & 0x80) && !(m_prevKeyboardState[DIK_COMMA] & 0x80) && simulationSpeed != 1)
+	{
+		simulationSpeed /= 2;
+	}
 
 	//calculate frame time-step dt for passing down to game objects
 	DWORD currentTime = GetTickCount();
@@ -219,10 +173,14 @@ bool Game::update()
 
 
 	//update all objects
-	for (list<GameObject *>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+	for (int i = 0; i < simulationSpeed; i++)
 	{
-		(*it)->Tick(m_GD);
+		for (list<GameObject *>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+		{
+			(*it)->Tick(m_GD);
+		}
 	}
+	
 	for (list<GameObject2D *>::iterator it = m_GameObject2Ds.begin(); it != m_GameObject2Ds.end(); it++)
 	{
 		(*it)->tick(m_GD);
@@ -240,7 +198,27 @@ void Game::render(ID3D11DeviceContext* _pd3dImmediateContext)
 	{
 		m_DD->cam = m_TPSCam;
 	}
-	
+
+
+	string simulationSpeedStr = ("Simulation Speed: " + std::to_string(simulationSpeed));
+	string currentParticle = ("Current Particle: " + std::to_string(*m_GD->pSpawner->GetCurrentParticle() + 1));
+	string currentParticleState;
+	if (*m_GD->pSpawner->GetParticleAliveState())
+	{
+		currentParticleState = ("State: Spawned");
+	}
+	else
+	{
+		currentParticleState = ("State: Not Spawned");
+	}	
+	Vector3 currentParticlesPosition = (*m_GD->pSpawner->GetParticlePosition());
+	string currentParticlePosition = ("Position: [X: " + std::to_string(currentParticlesPosition.x) + "  Y: " + std::to_string(currentParticlesPosition.y) + "]");
+	Vector3 currentParticlesVelocity = (*m_GD->pSpawner->GetParticleVelocity());
+	string currentParticleVelocity = ("Velocity: [X: " + std::to_string(currentParticlesVelocity.x) + "  Y: " + std::to_string(currentParticlesVelocity.y) + "]");
+	Color currentParticleColor = (*m_GD->pSpawner->GetParticleColor());
+	int currentParticlesMass = (*m_GD->pSpawner->GetParticleMass());
+	string currentParticleMass = ("Mass: " + std::to_string(currentParticlesMass));
+
 	VBGO::UpdateConstantBuffer(m_DD);
 
 	//draw all 3D objects
@@ -248,19 +226,25 @@ void Game::render(ID3D11DeviceContext* _pd3dImmediateContext)
 	{
 		(*it)->Draw(m_DD);
 	}
-
-	
-	char number[10];
-	itoa(10, number, 10); 
-	string attempt = "Test Message " + string(number);
-
 	// Draw sprite batch stuff
 	m_DD2D->m_Sprites->Begin();
 	for (list<GameObject2D *>::iterator it = m_GameObject2Ds.begin(); it != m_GameObject2Ds.end(); it++)
 	{
 		(*it)->draw(m_DD2D);
 	}
-	//m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(attempt.c_str()), Vector2(100, 10), Colors::Yellow);
+	int i = 1;
+	xText = 10;
+	yText = 15;
+	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar("Variable List"), Vector2(xText, 15), Colors::White);
+	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(simulationSpeedStr.c_str()), Vector2(xText, 30), Colors::White);
+	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticle.c_str()), Vector2(xText, 45), currentParticleColor);
+	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleState.c_str()), Vector2(xText, 60), currentParticleColor);
+	for (int i = 0; i < 10; i++)
+	{
+		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticlePosition.c_str()), Vector2(((*m_GD->screenDimensions).x / 2) + currentParticlesPosition.x, ((*m_GD->screenDimensions).y / 2) - currentParticlesPosition.y + 15), currentParticleColor);
+		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleVelocity.c_str()), Vector2(((*m_GD->screenDimensions).x / 2) + currentParticlesPosition.x, ((*m_GD->screenDimensions).y / 2) - currentParticlesPosition.y), currentParticleColor);
+		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleMass.c_str()), Vector2(((*m_GD->screenDimensions).x / 2) + currentParticlesPosition.x, ((*m_GD->screenDimensions).y / 2) - currentParticlesPosition.y - 15), currentParticleColor);
+	}
 	m_DD2D->m_Sprites->End();
 
 	_pd3dImmediateContext->OMSetDepthStencilState(m_States->DepthDefault(), 0);
@@ -296,6 +280,7 @@ bool Game::ReadKeyboard()
 
 bool Game::ReadMouse()
 {
+	memcpy(&m_prevMouseState, &m_mouse_state, sizeof(m_mouse_state));
 	//clear out previous state
 	ZeroMemory(&m_mouse_state, sizeof(m_mouse_state));
 

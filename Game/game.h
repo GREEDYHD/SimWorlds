@@ -10,6 +10,7 @@
 #include "CommonStates.h"
 #include <dinput.h> 
 
+
 using namespace std;
 
 using namespace DirectX;
@@ -38,6 +39,7 @@ protected:
 	bool ReadKeyboard();
 	bool ReadMouse();
 
+	Vector2* screenDimensionsVar;
 	DWORD m_playTime; //amount of time since the game started
 
 	Camera* m_cam; //principle camera
@@ -59,11 +61,15 @@ protected:
 	unsigned char			m_prevKeyboardState[256];
 	IDirectInputDevice8*	m_pMouse;
 	DIMOUSESTATE			m_mouse_state;
+	DIMOUSESTATE			m_prevMouseState;
 
 	//my GameData
 	GameData* m_GD;
 	DrawData* m_DD;
 	DrawData2D* m_DD2D;
+	int simulationSpeed;
+	int xText;
+	int yText;
 	
 };
 

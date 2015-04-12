@@ -17,18 +17,21 @@ public:
 	void Tick(GameData* GD);
 	void Draw(DrawData* DD);
 	void Create(GameData* GD);
-	
-
-
-
+	int* GetCurrentParticle();
+	bool* GetParticleAliveState();
+	Vector3* GetParticlePosition();
+	Vector3* GetParticleVelocity();
+	Color* GetParticleColor();
+	int* GetMaxParticles();
+	int* GetParticleMass();
+	Vector2 GetMousePosition(GameData* GD);
 protected:
 	int maxParticles;
+	bool usingCircularOrbits;
 	vector<VBSphere *> Particles;
 	Vector3 temp;
 	bool m_runningSimulation;
-	int angleA, angleB;
+	int currentParticle;
+	
 };
-
-
-
 #endif

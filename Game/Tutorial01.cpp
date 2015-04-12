@@ -121,13 +121,12 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
     wcex.hIconSm = LoadIcon( wcex.hInstance, ( LPCTSTR )IDI_TUTORIAL1 );
     if( !RegisterClassEx( &wcex ) )
         return E_FAIL;
-
     // Create window
     g_hInst = hInstance;
-    RECT rc = { 0, 0, 1280, 720 };
+	RECT rc = { 0, 0, , 1080 };
     AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 	//SS Chnaged Window name
-    g_hWnd = CreateWindow( L"TutorialWindowClass", L"GEA TUTS PROJECT", WS_OVERLAPPEDWINDOW,
+    g_hWnd = CreateWindow( L"TutorialWindowClass", L"Simulated Worlds Solar System Simulation", WS_OVERLAPPEDWINDOW,
                            CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
                            nullptr );
     if( !g_hWnd )
@@ -358,7 +357,7 @@ HRESULT InitDevice()
 void Render()
 {
 	// Just clear the backbuffer
-	g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, Colors::MidnightBlue); 
+	g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, Colors::Black); 
 	// Clear the depth stencil
 	g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0, 0);
 	

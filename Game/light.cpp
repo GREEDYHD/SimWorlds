@@ -12,13 +12,10 @@ Light::Light(Vector3 _Position, Color _colour, Color _ambientColour)
 
 Light::~Light()
 {
+
 }
 
 void Light::Tick(GameData* _GD)
 {
-	//not really needed but spins the camera around to show off the lambert default VBGO shader
-	static float time = 0.0f;
-	time += _GD->dt;
-	m_Position.x = 100.0f * cos(time);
-	m_Position.z = 100.0f * sin(time);
+
 }
