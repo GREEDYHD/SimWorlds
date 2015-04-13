@@ -3,14 +3,13 @@ VBSphere::VBSphere(ID3D11Device* _pd3dDevice, Vector3 _position)
 {
 	m_Position = _position;
 	//m_Velocity = _Velocity;
-	m_scale = 2.0f  * m_scale;
+	m_scale *= 1; // gives us scale or r^3 if density and mass of object is 1
 	m_size = 11;
 	m_alive = false;
 	trailNumber = 0;
 	currentTrailNumber = 0;
 	m_distanceSquared = 0;
 	m_GForce = 0;
-
 	for (int i = 0; i < 99; i++)
 	{
 		SphereTrails.push_back(new Trails(_pd3dDevice));
@@ -167,11 +166,11 @@ void VBSphere::Tick(GameData* GD)
 			(*it)->Tick(GD);
 		}
 	}
-	if (abs(m_Position.y > 800))
+	if (abs(m_Position.y > 600))
 	{
 		DeSpawn();
 	}
-	if (abs(m_Position.x > 1200))
+	if (abs(m_Position.x > 1000))
 	{
 		DeSpawn();
 	}
@@ -188,10 +187,13 @@ void VBSphere::Spawn(Vector3 _position)
 	}
 	m_alive = true;
 	m_Position = _position;
+	
 	//m_Position = Vector3(500 * (((float)rand() / (float)RAND_MAX) / 0.5f), 500 * (((float)rand() / (float)RAND_MAX) / 0.5f), 0.0f);
-	m_Velocity = Vector3(0.07f * (((float)rand() / (float)RAND_MAX) / 0.5f), 0.07f * (((float)rand() / (float)RAND_MAX) / 0.5f), 0.0f);
-	//m_Velocity = Vector3(0, 0, 0);
+	//m_Velocity = Vector3(0.07f * (((float)rand() / (float)RAND_MAX) / 0.5f), 0.07f * (((float)rand() / (float)RAND_MAX) / 0.5f), 0.0f);
+	m_Velocity = Vector3(0, 0, 0);
 	m_mass = toupper( 100 * ((float)rand() / (float)RAND_MAX) / 0.5f);
+	float tmp = tolower((0.75f * XM_PI) * m_mass);
+	m_scale = (Vector3(1, 1, 1) * tmp) * 0.05;
 }
 
 void VBSphere::DeSpawn()
@@ -209,32 +211,34 @@ void VBSphere::DeSpawn()
 void VBSphere::CalculateVelocity(Vector3 _ParticlesPosition, int _ParticlesMass, Vector3 _ParticlesVelocity)
 {
 	Vector3 tempDistance = _ParticlesPosition - m_Position;
-	if (tempDistance.Length() > 5)
-	{
-		m_distanceSquared = tempDistance.LengthSquared();
-		m_GForce = 0.001 * (m_mass * _ParticlesMass)/m_distanceSquared;
-		tempDistance.Normalize();
-		m_NewVelocity += tempDistance * m_GForce;
-	}
-	else
-	{
-		m_distanceSquared = tempDistance.LengthSquared();
-		m_GForce = 0.1 * m_GForce;
-		tempDistance.Normalize();
-		m_NewVelocity = tempDistance * m_GForce;
-	}
+	m_distanceSquared = tempDistance.LengthSquared();
+	m_GForce = 0.05 * (_ParticlesMass)/m_distanceSquared;
+	tempDistance.Normalize();
+	m_NewVelocity += _ParticlesVelocity + tempDistance * m_GForce;
 }
 void VBSphere::SetNewVelocity()
 {
 	m_Velocity = m_NewVelocity;
 }
-void VBSphere::CirculariseOrbit(Vector3 _ParticlesPosition)
+//void VBSphere::CirculariseOrbit(Vector3 _ParticlesPosition)
+//{
+//	Vector3 tempDistance = _ParticlesPosition - m_Position;
+//	m_Velocity.x = sin(m_Position.x) / tempDistance.Length();
+//	m_Velocity.y = cos(m_Position.y) / tempDistance.Length();
+//}
+bool VBSphere::isColliding(Vector3 _ParticlesPosition)
 {
 	Vector3 tempDistance = _ParticlesPosition - m_Position;
-	m_Velocity.x = sin(m_Position.x) / tempDistance.Length();
-	m_Velocity.y = cos(m_Position.y) / tempDistance.Length();
+	if (tempDistance.Length() < m_scale.x)
+	{
+		m_Velocity *= 0.01;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
-
 bool VBSphere::isAlive()
 {
 	return m_alive;
@@ -251,4 +255,14 @@ Color VBSphere::GetColor()
 int VBSphere::GetMass()
 {
 	return m_mass;
+}
+void VBSphere::SetMass(int _newMass)
+{
+	m_mass = _newMass;
+	float tmp = tolower((0.75f * XM_PI) * m_mass);
+	m_scale = (Vector3(1,1,1) * tmp) * 0.05;
+}
+void VBSphere::SetVelocity(Vector3 _newVelocity)
+{
+	m_NewVelocity = _newVelocity;
 }

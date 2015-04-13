@@ -12,7 +12,6 @@ struct GameData
 	DIMOUSESTATE* prevMouse;
 	GameState GS; //current game state
 	ParticleSpawner* pSpawner;
-	Vector2* screenDimensions;
 };
 
 #endif

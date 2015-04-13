@@ -123,7 +123,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
         return E_FAIL;
     // Create window
     g_hInst = hInstance;
-	RECT rc = { 0, 0, , 1080 };
+	RECT rc = { 0, 0, 1920, 1080 };
     AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 	//SS Chnaged Window name
     g_hWnd = CreateWindow( L"TutorialWindowClass", L"Simulated Worlds Solar System Simulation", WS_OVERLAPPEDWINDOW,

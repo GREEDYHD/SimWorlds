@@ -30,7 +30,8 @@ void ParticleSpawner::Draw(DrawData* DD)
 }
 void ParticleSpawner::Tick(GameData* GD)
 {
-	/*if (GD->keyboard[DIK_Q] & 0x80 && !(GD->prevKeyboard[DIK_Q] & 0x80))
+	Vector3 m_PPos = Vector3(500 * (((float)rand() / (float)RAND_MAX) / 0.5f), 500 * (((float)rand() / (float)RAND_MAX) / 0.5f), 0.0f);
+	if (GD->keyboard[DIK_Q] & 0x80 && !(GD->prevKeyboard[DIK_Q] & 0x80))
 	{
 		if (Particles[currentParticle]->isAlive())
 		{
@@ -41,14 +42,14 @@ void ParticleSpawner::Tick(GameData* GD)
 	{
 		if (!Particles[currentParticle]->isAlive())
 		{
-			Particles[currentParticle]->Spawn();
+			Particles[currentParticle]->Spawn(m_PPos);
 		}
-	}*/
+	}
 	if (GD->keyboard[DIK_E] & 0x80 && !(GD->prevKeyboard[DIK_E] & 0x80) && currentParticle != 0)
 	{
 		currentParticle--;
 	}
-	if (GD->keyboard[DIK_R] & 0x80 && !(GD->prevKeyboard[DIK_R] & 0x80) && currentParticle != maxParticles - 1 && Particles[currentParticle]->isAlive())
+	if (GD->keyboard[DIK_R] & 0x80 && !(GD->prevKeyboard[DIK_R] & 0x80) && currentParticle != maxParticles - 1)
 	{
 		currentParticle++;
 	}
@@ -60,18 +61,11 @@ void ParticleSpawner::Tick(GameData* GD)
 			currentParticle++;
 		}
 	}
-	/*if (GD->keyboard[DIK_D] & 0x80)
+	if (GD->keyboard[DIK_V] & 0x80 && GD->mouse->rgbButtons[0] & 0x80 && !(GD->prevMouse->rgbButtons[0] & 0x80))
 	{
-		if (usingCircularOrbits)
-		{
-			usingCircularOrbits = false;
-		}
-		else
-		{
-			usingCircularOrbits = true;
-		}
-	}*/
-	
+		Vector3 pVel = Vector3(GetMousePosition().x - Particles[currentParticle]->GetPos().x, GetMousePosition().y - Particles[currentParticle]->GetPos().y, 0) / 100;
+		Particles[currentParticle]->SetVelocity(pVel);
+	}
 	
 	for (vector<VBSphere *>::iterator it = Particles.begin(); it != Particles.end(); it++)
 	{
@@ -88,13 +82,22 @@ void ParticleSpawner::Tick(GameData* GD)
 					{
 						ParticlesPosition = (*it2)->GetPosition();
 						ParticlesMass = (*it2)->GetMass();
-						ParticlesVelocity = (*it)->GetVelocity();						
+						if ((*it)->isColliding(ParticlesPosition) && (*it)->GetMass() >= (*it2)->GetMass()) 
+						{
+							int newMass = (*it)->GetMass() + (*it2)->GetMass();
+							Vector3 prevMomentum = ((*it)->GetVelocity()*(*it)->GetMass()) + ((*it2)->GetVelocity()*(*it2)->GetMass());
+							Vector3 newVelocity = (prevMomentum / newMass);
+							(*it2)->DeSpawn();
+							(*it)->SetMass(newMass);
+							(*it)->SetVelocity(newVelocity);
+							Vector3 newMomentum = ((*it)->GetVelocity()*(*it)->GetMass());
+						}					
 					}
 				}
-			}
 			(*it)->CalculateVelocity(ParticlesPosition, ParticlesMass, ParticlesVelocity);
-		}
+			}
 		(*it)->SetNewVelocity();
+		}
 	}
 	for (vector<VBSphere *>::iterator it = Particles.begin(); it != Particles.end(); it++)
 	{
@@ -139,13 +142,12 @@ int* ParticleSpawner::GetParticleMass()
 	return &pMass;
 }
 
-Vector2 ParticleSpawner::GetMousePosition(GameData* GD)
+Vector2 ParticleSpawner::GetMousePosition()
 {
 	POINT cursorPos;
-	GetPhysicalCursorPos(&cursorPos);
-	//GetCursorPos(&cursorPos);
-	float x = -(*GD->screenDimensions).x / 2 + cursorPos.x;
-	float y = (*GD->screenDimensions).y / 2 - cursorPos.y;
+	GetCursorPos(&cursorPos);
+	float x = -1920 / 2 + cursorPos.x;
+	float y = 1080 / 2 - cursorPos.y;
 	Vector2 cursorPositionVector = Vector2(x, y);
 	return cursorPositionVector;
 }

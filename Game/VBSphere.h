@@ -19,11 +19,13 @@ public:
 	void DeSpawn();
 	bool isAlive();
 	void CalculateVelocity(Vector3 _ParticlesPosition, int _ParticlesMass, Vector3 _ParticlesVelocity);
-	void CirculariseOrbit(Vector3 _ParticlesPosition);
+	bool isColliding(Vector3 _ParticlesPosition);
 	void SetNewVelocity();
 	Vector3 GetVelocity();
 	Color GetColor();
 	int GetMass();
+	void SetMass(int _newMass);
+	void SetVelocity(Vector3 _newVelocity);
 
 protected:
 	virtual void Transform()

@@ -39,7 +39,6 @@ protected:
 	bool ReadKeyboard();
 	bool ReadMouse();
 
-	Vector2* screenDimensionsVar;
 	DWORD m_playTime; //amount of time since the game started
 
 	Camera* m_cam; //principle camera
@@ -70,7 +69,6 @@ protected:
 	int simulationSpeed;
 	int xText;
 	int yText;
-	
 };
 
 

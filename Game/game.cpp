@@ -52,13 +52,11 @@ Game::Game(ID3D11Device* _pd3dDevice, HINSTANCE _hInstance) :m_playTime(0), m_my
 	m_GD->mouse = &m_mouse_state;
 	m_GD->prevMouse = &m_prevMouseState;
 	m_GD->GS = GS_PLAY_MAIN_CAM;
-	m_GD->screenDimensions = screenDimensionsVar;
 
-	screenDimensionsVar = &Vector2(1920, 1080);
 
 	//create a base camera
-	m_cam = new Camera(0.25f * XM_PI, (*m_GD->screenDimensions).x / (*m_GD->screenDimensions).y , 1.0f, 10000.0f, Vector3::Zero, Vector3::UnitY);
-	m_cam->SetPos( Vector3(0.0f, 1.0f,1500.0f));
+	m_cam = new Camera(0.25f * XM_PI, 1920.0f / 1080.0f, 1.0f, 10000.0f, Vector3::Zero, Vector3::UnitY);
+	m_cam->SetPos( Vector3(0.0f, 0.0f,1300.0f));
 	m_GameObjects.push_back(m_cam);
 
 	/*VBSphere* Sun = new VBSphere(_pd3dDevice, Vector3(0.0f, 0.0f, 0.0f));
@@ -73,7 +71,7 @@ Game::Game(ID3D11Device* _pd3dDevice, HINSTANCE _hInstance) :m_playTime(0), m_my
 	m_GameObjects.push_back(spawner);
 	m_GD->pSpawner = spawner;
 
-	m_TPSCam = new TPSCamera(0.25f * XM_PI, (*m_GD->screenDimensions).x / (*m_GD->screenDimensions).y , 1.0f, 10000.0f, m_Light, Vector3::UnitY, Vector3(0.0f, 0.0f, 2000.0f));
+	m_TPSCam = new TPSCamera(0.25f * XM_PI, 1920.0f / 1080.0f, 1.0f, 10000.0f, m_Light, Vector3::UnitY, Vector3(0.0f, 0.0f, 3000.0f));
 	m_GameObjects.push_back(m_TPSCam);
 
 	ID3D11DeviceContext* pd3dImmediateContext;
@@ -146,7 +144,7 @@ bool Game::update()
 		return false;
 	}
 
-	if ((m_keyboardState[DIK_SPACE] & 0x80) && !(m_prevKeyboardState[DIK_SPACE] & 0x80))
+	/*if ((m_keyboardState[DIK_SPACE] & 0x80) && !(m_prevKeyboardState[DIK_SPACE] & 0x80))
 	{
 		if (m_GD->GS == GS_PLAY_MAIN_CAM)
 		{
@@ -156,7 +154,7 @@ bool Game::update()
 		{
 			m_GD->GS = GS_PLAY_MAIN_CAM;
 		}
-	}
+	}*/
 	if ((m_keyboardState[DIK_PERIOD] & 0x80) && !(m_prevKeyboardState[DIK_PERIOD] & 0x80) && simulationSpeed != 32)
 	{
 		simulationSpeed *= 2;
@@ -199,7 +197,6 @@ void Game::render(ID3D11DeviceContext* _pd3dImmediateContext)
 		m_DD->cam = m_TPSCam;
 	}
 
-
 	string simulationSpeedStr = ("Simulation Speed: " + std::to_string(simulationSpeed));
 	string currentParticle = ("Current Particle: " + std::to_string(*m_GD->pSpawner->GetCurrentParticle() + 1));
 	string currentParticleState;
@@ -234,16 +231,16 @@ void Game::render(ID3D11DeviceContext* _pd3dImmediateContext)
 	}
 	int i = 1;
 	xText = 10;
-	yText = 15;
+	yText = 15; 
 	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar("Variable List"), Vector2(xText, 15), Colors::White);
 	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(simulationSpeedStr.c_str()), Vector2(xText, 30), Colors::White);
 	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticle.c_str()), Vector2(xText, 45), currentParticleColor);
 	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleState.c_str()), Vector2(xText, 60), currentParticleColor);
 	for (int i = 0; i < 10; i++)
 	{
-		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticlePosition.c_str()), Vector2(((*m_GD->screenDimensions).x / 2) + currentParticlesPosition.x, ((*m_GD->screenDimensions).y / 2) - currentParticlesPosition.y + 15), currentParticleColor);
-		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleVelocity.c_str()), Vector2(((*m_GD->screenDimensions).x / 2) + currentParticlesPosition.x, ((*m_GD->screenDimensions).y / 2) - currentParticlesPosition.y), currentParticleColor);
-		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleMass.c_str()), Vector2(((*m_GD->screenDimensions).x / 2) + currentParticlesPosition.x, ((*m_GD->screenDimensions).y / 2) - currentParticlesPosition.y - 15), currentParticleColor);
+		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticlePosition.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x, (1080 / 2) - currentParticlesPosition.y + 15), currentParticleColor);
+		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleVelocity.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x, (1080 / 2) - currentParticlesPosition.y), currentParticleColor);
+		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleMass.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x, (1080 / 2) - currentParticlesPosition.y - 15), currentParticleColor);
 	}
 	m_DD2D->m_Sprites->End();
 

@@ -24,7 +24,7 @@ public:
 	Color* GetParticleColor();
 	int* GetMaxParticles();
 	int* GetParticleMass();
-	Vector2 GetMousePosition(GameData* GD);
+	Vector2 GetMousePosition();
 protected:
 	int maxParticles;
 	bool usingCircularOrbits;
