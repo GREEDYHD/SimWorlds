@@ -103,6 +103,9 @@
     <ClInclude Include="ParticleSpawner.h">
       <Filter>Engine\GameObject Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Trails.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc">
@@ -155,5 +158,11 @@
     <ClCompile Include="ParticleSpawner.cpp">
       <Filter>Engine\GameObject Source</Filter>
     </ClCompile>
+    <ClCompile Include="Trails.cpp">
+      <Filter>Engine\GameObject Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DavesFont.spritefont" />
   </ItemGroup>
 </Project>

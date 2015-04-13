@@ -364,6 +364,7 @@
     <ClCompile Include="snail.cpp" />
     <ClCompile Include="terrain.cpp" />
     <ClCompile Include="tpscamera.cpp" />
+    <ClCompile Include="Trails.cpp" />
     <ClCompile Include="turret_base.cpp" />
     <ClCompile Include="Tutorial01.cpp" />
     <ClCompile Include="VBSphere.cpp" />
@@ -392,6 +393,7 @@
     <ClInclude Include="spiral.h" />
     <ClInclude Include="terrain.h" />
     <ClInclude Include="tpscamera.h" />
+    <ClInclude Include="Trails.h" />
     <ClInclude Include="Turret_base.h" />
     <ClInclude Include="VBSphere.h" />
     <ClInclude Include="VBGO.h" />
@@ -399,6 +401,7 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DavesFont.spritefont" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
