@@ -94,7 +94,8 @@ void ParticleSpawner::Tick(GameData* GD)
 						}					
 					}
 				}
-			(*it)->CalculateVelocity(ParticlesPosition, ParticlesMass, ParticlesVelocity);
+			///(*it)->CalculateVelocity(ParticlesPosition, ParticlesMass, ParticlesVelocity);
+				(*it)->CirculariseOrbit(Vector3(0, 0, 0), 10, Vector3(0, 0, 0));
 			}
 		(*it)->SetNewVelocity();
 		}

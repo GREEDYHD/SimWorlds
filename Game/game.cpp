@@ -238,9 +238,9 @@ void Game::render(ID3D11DeviceContext* _pd3dImmediateContext)
 	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleState.c_str()), Vector2(xText, 60), currentParticleColor);
 	for (int i = 0; i < 10; i++)
 	{
-		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticlePosition.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x, (1080 / 2) - currentParticlesPosition.y + 15), currentParticleColor);
-		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleVelocity.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x, (1080 / 2) - currentParticlesPosition.y), currentParticleColor);
-		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleMass.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x, (1080 / 2) - currentParticlesPosition.y - 15), currentParticleColor);
+		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticlePosition.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x + 20, (1080 / 2) - currentParticlesPosition.y + 15), currentParticleColor);
+		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleVelocity.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x + 20, (1080 / 2) - currentParticlesPosition.y), currentParticleColor);
+		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleMass.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x + 20, (1080 / 2) - currentParticlesPosition.y - 15), currentParticleColor);
 	}
 	m_DD2D->m_Sprites->End();
 

@@ -18,7 +18,7 @@ VBSphere::VBSphere(ID3D11Device* _pd3dDevice, Vector3 _position)
 		int numVerts = 6 * 6 * (m_size - 1) * (m_size - 1);
 		m_numPrims = numVerts / 3;
 		m_vertices = new myVertex[numVerts];
-		m_Color = Color((2 * ((float)rand() / (float)RAND_MAX) / 0.5f), (2 * ((float)rand() / (float)RAND_MAX) / 0.5f),(2 * ((float)rand() / (float)RAND_MAX) / 0.5f), 1.0f);
+		m_Color = Color((5 * ((float)rand() / (float)RAND_MAX) / 0.5f), (5 * ((float)rand() / (float)RAND_MAX) / 0.5f),(5 * ((float)rand() / (float)RAND_MAX) / 0.5f), 1.0f);
 		WORD* indices = new WORD[numVerts];
 		int vert = 0;
 		//Vector3 m_distanceToParent = XMVectorSubtract(m_Position, m_point);
@@ -191,7 +191,8 @@ void VBSphere::Spawn(Vector3 _position)
 	//m_Position = Vector3(500 * (((float)rand() / (float)RAND_MAX) / 0.5f), 500 * (((float)rand() / (float)RAND_MAX) / 0.5f), 0.0f);
 	//m_Velocity = Vector3(0.07f * (((float)rand() / (float)RAND_MAX) / 0.5f), 0.07f * (((float)rand() / (float)RAND_MAX) / 0.5f), 0.0f);
 	m_Velocity = Vector3(0, 0, 0);
-	m_mass = toupper( 100 * ((float)rand() / (float)RAND_MAX) / 0.5f);
+	//m_mass = 10;
+	m_mass = toupper(100 * ((float)rand() / (float)RAND_MAX) / 0.5f);
 	float tmp = tolower((0.75f * XM_PI) * m_mass);
 	m_scale = (Vector3(1, 1, 1) * tmp) * 0.05;
 }
@@ -220,12 +221,15 @@ void VBSphere::SetNewVelocity()
 {
 	m_Velocity = m_NewVelocity;
 }
-//void VBSphere::CirculariseOrbit(Vector3 _ParticlesPosition)
-//{
-//	Vector3 tempDistance = _ParticlesPosition - m_Position;
-//	m_Velocity.x = sin(m_Position.x) / tempDistance.Length();
-//	m_Velocity.y = cos(m_Position.y) / tempDistance.Length();
-//}
+void VBSphere::CirculariseOrbit(Vector3 _ParticlesPosition, int _ParticlesMass, Vector3 _ParticlesVelocity)
+{
+	Vector3 tempDistance = _ParticlesPosition - m_Position;
+	m_distanceSquared = tempDistance.Length();
+	m_GForce = sqrt(0.05 * (_ParticlesMass) / m_distanceSquared);
+	tempDistance.Normalize();
+	m_NewVelocity += _ParticlesVelocity + tempDistance * m_GForce;
+	m_NewVelocity = Vector3(sin(m_NewVelocity.x), sin(m_NewVelocity.y), sin(m_NewVelocity.z));
+}
 bool VBSphere::isColliding(Vector3 _ParticlesPosition)
 {
 	Vector3 tempDistance = _ParticlesPosition - m_Position;
@@ -265,4 +269,8 @@ void VBSphere::SetMass(int _newMass)
 void VBSphere::SetVelocity(Vector3 _newVelocity)
 {
 	m_NewVelocity = _newVelocity;
+}
+float VBSphere::GetScale()
+{
+	return m_scale.x;
 }
