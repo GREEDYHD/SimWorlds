@@ -5,16 +5,25 @@
 ParticleSpawner::ParticleSpawner(ID3D11Device* _pd3dDevice)
 {
 	m_Position = Vector3(0.0f, 0.0f, 0.0f);
-	maxParticles = 10;
+	maxParticles = 15;
+	m_Gravity = 0.0001;
 	temp = Vector3(0.0f, 0.0f, 0.0f);
 	m_runningSimulation = false;
 	usingCircularOrbits = false;
 	currentParticle = 0;
+	burn = 0;
 	Vector3 SpherePos = Vector3(0.0f, 0.0f, 0.0f);
 	for (int i = 0; i < maxParticles; i++)
 	{
 		SpherePos += Vector3(0, 25 * (((float)rand() / (float)RAND_MAX) / 0.5f), 25 * (((float)rand() / (float)RAND_MAX) / 0.5f));
-		Particles.push_back(new VBSphere(_pd3dDevice, SpherePos));
+		if (!i)
+		{
+			Particles.push_back(new Particle(_pd3dDevice, SpherePos, PT_STAR));
+		}
+		else
+		{
+			Particles.push_back(new Particle(_pd3dDevice, SpherePos, PT_PLANET));
+		}
 	}
 }
 ParticleSpawner::~ParticleSpawner()
@@ -23,7 +32,7 @@ ParticleSpawner::~ParticleSpawner()
 }
 void ParticleSpawner::Draw(DrawData* DD)
 {
-	for (vector<VBSphere *>::iterator it = Particles.begin(); it != Particles.end(); it++)
+	for (vector<Particle *>::iterator it = Particles.begin(); it != Particles.end(); it++)
 	{
 		(*it)->Draw(DD);
 	}
@@ -59,22 +68,32 @@ void ParticleSpawner::Tick(GameData* GD)
 		{
 			Particles[currentParticle]->Spawn(Vector3(GetMousePosition().x, GetMousePosition().y, 0));
 			currentParticle++;
-		}
+		}		
 	}
 	if (GD->keyboard[DIK_V] & 0x80 && GD->mouse->rgbButtons[0] & 0x80 && !(GD->prevMouse->rgbButtons[0] & 0x80))
 	{
-		Vector3 pVel = Vector3(GetMousePosition().x - Particles[currentParticle]->GetPos().x, GetMousePosition().y - Particles[currentParticle]->GetPos().y, 0) / 100;
+		Vector3 pVel = Vector3(GetMousePosition().x - Particles[currentParticle]->GetPos().x, GetMousePosition().y - Particles[currentParticle]->GetPos().y, 0) / 100;//Creates velocity vector based on mouse click
 		Particles[currentParticle]->SetVelocity(pVel);
 	}
-	
-	for (vector<VBSphere *>::iterator it = Particles.begin(); it != Particles.end(); it++)
+
+	if (GD->keyboard[DIK_F] & 0x80 && !(GD->prevKeyboard[DIK_F] & 0x80))
 	{
+		SetGravity(0.5);
+	}
+	if (GD->keyboard[DIK_G] & 0x80 && !(GD->prevKeyboard[DIK_G] & 0x80))
+	{
+		SetGravity(2);
+	}
+
+	for (vector<Particle *>::iterator it = Particles.begin(); it != Particles.end(); it++)
+	{
+		
 		Vector3 ParticlesPosition = Vector3(0.0f, 0.0f, 0.0f);
 		int ParticlesMass = 0;
 		Vector3 ParticlesVelocity = Vector3(0.0f, 0.0f, 0.0f);
 		if ((*it)->isAlive())
 		{
-			for (vector<VBSphere *>::iterator it2 = Particles.begin(); it2 != Particles.end(); it2++)
+			for (vector<Particle *>::iterator it2 = Particles.begin(); it2 != Particles.end(); it2++)
 			{
 				if ((*it2)->isAlive())
 				{
@@ -82,25 +101,36 @@ void ParticleSpawner::Tick(GameData* GD)
 					{
 						ParticlesPosition = (*it2)->GetPosition();
 						ParticlesMass = (*it2)->GetMass();
-						if ((*it)->isColliding(ParticlesPosition) && (*it)->GetMass() >= (*it2)->GetMass()) 
+						if ((*it)->isColliding(ParticlesPosition, (*it)->GetType()) && (*it)->GetMass() >= (*it2)->GetMass()) 
 						{
-							int newMass = (*it)->GetMass() + (*it2)->GetMass();
-							Vector3 prevMomentum = ((*it)->GetVelocity()*(*it)->GetMass()) + ((*it2)->GetVelocity()*(*it2)->GetMass());
-							Vector3 newVelocity = (prevMomentum / newMass);
-							(*it2)->DeSpawn();
-							(*it)->SetMass(newMass);
-							(*it)->SetVelocity(newVelocity);
-							Vector3 newMomentum = ((*it)->GetVelocity()*(*it)->GetMass());
+							//Different behaviour if colliding with planet or star
+							if ((*it)->GetType() == PT_PLANET)
+							{	
+								int newMass = (*it)->GetMass() + (*it2)->GetMass();
+								Vector3 prevMomentum = ((*it)->GetVelocity() * (*it)->GetMass()) + ((*it2)->GetVelocity()*(*it2)->GetMass());//Ensures conservation of momentum
+								Vector3 newVelocity = (prevMomentum / newMass);
+								(*it2)->DeSpawn();//Despawns the smaller planet as it will be consumed by the larger one
+								(*it)->SetMass(newMass);
+								(*it)->SetVelocity(newVelocity);
+							}
+							else if ((*it)->GetType() == PT_STAR)
+							{
+								burn++;
+								if (burn == 5)
+								{
+									((*it2)->SetMass((*it2)->GetMass() - 1));//Reduces the mass as if its burning up
+									burn = 0;
+								}
+							}
 						}					
 					}
 				}
-			///(*it)->CalculateVelocity(ParticlesPosition, ParticlesMass, ParticlesVelocity);
-				(*it)->CirculariseOrbit(Vector3(0, 0, 0), 10, Vector3(0, 0, 0));
+			(*it)->CalculateVelocity(ParticlesPosition, ParticlesMass, ParticlesVelocity, m_Gravity);
 			}
-		(*it)->SetNewVelocity();
+		(*it)->SetNewVelocity();//Waits till all bodies have had their forces calculated before updating them
 		}
 	}
-	for (vector<VBSphere *>::iterator it = Particles.begin(); it != Particles.end(); it++)
+	for (vector<Particle *>::iterator it = Particles.begin(); it != Particles.end(); it++)
 	{
 		if ((*it)->isAlive())
 		{
@@ -152,4 +182,11 @@ Vector2 ParticleSpawner::GetMousePosition()
 	Vector2 cursorPositionVector = Vector2(x, y);
 	return cursorPositionVector;
 }
-
+float* ParticleSpawner::GetGravity()
+{
+	return &m_Gravity;
+}
+void ParticleSpawner::SetGravity(float _modifier)
+{
+	m_Gravity *= _modifier;
+}

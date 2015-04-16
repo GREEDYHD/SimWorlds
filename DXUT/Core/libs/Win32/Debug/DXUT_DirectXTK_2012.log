@@ -1,5 +1,5 @@
-﻿Build started 24/02/2015 01:11:58.
-     1>Project "C:\Users\David_000\Documents\SimWorlds\DXUT\Core\DXUT_DirectXTK_2012.vcxproj" on node 3 (Rebuild target(s)).
+﻿Build started 15/04/2015 19:35:56.
+     1>Project "D:\SimWorlds\DXUT\Core\DXUT_DirectXTK_2012.vcxproj" on node 3 (Rebuild target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\Inc /ZI /nologo /W4 /WX- /Od /Oi /Oy- /D WIN32 /D _DEBUG /D DEBUG /D PROFILE /D _WINDOWS /D _LIB /D USE_DIRECTXTK /D _WIN32_WINNT=0x0600 /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /openmp- /Yc"DXUT.h" /Fp"libs\Win32\Debug\DXUT.pch" /Fo"libs\Win32\Debug\\" /Fd"libs\Win32\Debug\DXUT.pdb" /Gd /TP /analyze- /errorReport:prompt  DXUT.cpp
          DXUT.cpp
@@ -13,9 +13,9 @@
          libs\Win32\Debug\DXUTDevice11.obj
          libs\Win32\Debug\DXUTmisc.obj
          libs\Win32\Debug\DXErr.obj
-         DXUT_DirectXTK_2012.vcxproj -> C:\Users\David_000\Documents\SimWorlds\DXUT\Core\..\..\libs\Win32\Debug\DXUT.lib
-     1>Done Building Project "C:\Users\David_000\Documents\SimWorlds\DXUT\Core\DXUT_DirectXTK_2012.vcxproj" (Rebuild target(s)).
+         DXUT_DirectXTK_2012.vcxproj -> D:\SimWorlds\DXUT\Core\..\..\libs\Win32\Debug\DXUT.lib
+     1>Done Building Project "D:\SimWorlds\DXUT\Core\DXUT_DirectXTK_2012.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:07.95
+Time Elapsed 00:00:03.29

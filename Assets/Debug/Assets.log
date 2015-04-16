@@ -1,5 +1,5 @@
-﻿Build started 24/02/2015 01:11:58.
-     1>Project "C:\Users\David_000\Documents\SimWorlds\Assets\Assets.vcxproj" on node 6 (Rebuild target(s)).
+﻿Build started 15/04/2015 19:35:56.
+     1>Project "D:\SimWorlds\Assets\Assets.vcxproj" on node 5 (Rebuild target(s)).
      1>_ImageContentTask:
          grass.jpg
          white.jpg
@@ -7,8 +7,8 @@
        _MeshContentTask:
          table.FBX
          treasure_chest.FBX
-     1>Done Building Project "C:\Users\David_000\Documents\SimWorlds\Assets\Assets.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "D:\SimWorlds\Assets\Assets.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.85
+Time Elapsed 00:00:01.62

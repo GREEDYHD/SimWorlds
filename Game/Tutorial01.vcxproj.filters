@@ -97,14 +97,17 @@
     <ClInclude Include="snail.h">
       <Filter>Engine\GameObject Headers</Filter>
     </ClInclude>
-    <ClInclude Include="VBSphere.h">
-      <Filter>Engine\GameObject Headers</Filter>
-    </ClInclude>
     <ClInclude Include="ParticleSpawner.h">
       <Filter>Engine\GameObject Headers</Filter>
     </ClInclude>
     <ClInclude Include="Trails.h">
       <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Engine\GameObject Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleType.h">
+      <Filter>Engine\GameObject Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -152,13 +155,13 @@
     <ClCompile Include="snail.cpp">
       <Filter>Engine\GameObject Source</Filter>
     </ClCompile>
-    <ClCompile Include="VBSphere.cpp">
-      <Filter>Engine\GameObject Source</Filter>
-    </ClCompile>
     <ClCompile Include="ParticleSpawner.cpp">
       <Filter>Engine\GameObject Source</Filter>
     </ClCompile>
     <ClCompile Include="Trails.cpp">
+      <Filter>Engine\GameObject Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
       <Filter>Engine\GameObject Source</Filter>
     </ClCompile>
   </ItemGroup>

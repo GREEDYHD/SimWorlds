@@ -196,9 +196,9 @@ void Game::render(ID3D11DeviceContext* _pd3dImmediateContext)
 	{
 		m_DD->cam = m_TPSCam;
 	}
-
-	string simulationSpeedStr = ("Simulation Speed: " + std::to_string(simulationSpeed));
-	string currentParticle = ("Current Particle: " + std::to_string(*m_GD->pSpawner->GetCurrentParticle() + 1));
+	
+	string simulationSpeedStr = ("Simulation Speed: " + to_string(simulationSpeed));
+	string currentParticle = ("Current Particle: " + to_string(*m_GD->pSpawner->GetCurrentParticle() + 1));
 	string currentParticleState;
 	if (*m_GD->pSpawner->GetParticleAliveState())
 	{
@@ -207,15 +207,18 @@ void Game::render(ID3D11DeviceContext* _pd3dImmediateContext)
 	else
 	{
 		currentParticleState = ("State: Not Spawned");
-	}	
+	}
+
 	Vector3 currentParticlesPosition = (*m_GD->pSpawner->GetParticlePosition());
-	string currentParticlePosition = ("Position: [X: " + std::to_string(currentParticlesPosition.x) + "  Y: " + std::to_string(currentParticlesPosition.y) + "]");
+	string currentParticlePosition = ("Position: [X: " + to_string(currentParticlesPosition.x) + "  Y: " + to_string(currentParticlesPosition.y) + "]");
 	Vector3 currentParticlesVelocity = (*m_GD->pSpawner->GetParticleVelocity());
-	string currentParticleVelocity = ("Velocity: [X: " + std::to_string(currentParticlesVelocity.x) + "  Y: " + std::to_string(currentParticlesVelocity.y) + "]");
+	string currentParticleVelocity = ("Velocity: [X: " + to_string(currentParticlesVelocity.x) + "  Y: " + to_string(currentParticlesVelocity.y) + "]");
 	Color currentParticleColor = (*m_GD->pSpawner->GetParticleColor());
 	int currentParticlesMass = (*m_GD->pSpawner->GetParticleMass());
-	string currentParticleMass = ("Mass: " + std::to_string(currentParticlesMass));
-
+	string currentParticleMass = ("Mass: " + to_string(currentParticlesMass));
+	string controls = "CONTROLS: ParticleUp/ParticleDown : E/R || Despawn/Spawn : Q/W || Spawn : LClick  || Set Velocity : V + LClick || Faster/Slower : >/< || Close : Esc";
+	string currentGravity = "Current Gravity: " + to_string(*m_GD->pSpawner->GetGravity());
+	
 	VBGO::UpdateConstantBuffer(m_DD);
 
 	//draw all 3D objects
@@ -232,15 +235,22 @@ void Game::render(ID3D11DeviceContext* _pd3dImmediateContext)
 	int i = 1;
 	xText = 10;
 	yText = 15; 
-	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar("Variable List"), Vector2(xText, 15), Colors::White);
-	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(simulationSpeedStr.c_str()), Vector2(xText, 30), Colors::White);
-	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticle.c_str()), Vector2(xText, 45), currentParticleColor);
-	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleState.c_str()), Vector2(xText, 60), currentParticleColor);
+	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(controls.c_str()), Vector2(xText, 15), Colors::White);
+	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar("Variable List"), Vector2(xText, 30), Colors::White);
+	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(simulationSpeedStr.c_str()), Vector2(xText, 45), Colors::White);
+	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentGravity.c_str()), Vector2(xText, 60), currentParticleColor);
+	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticle.c_str()), Vector2(xText, 75), currentParticleColor);
+	m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleState.c_str()), Vector2(xText, 90), currentParticleColor);
+
+	
 	for (int i = 0; i < 10; i++)
 	{
-		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticlePosition.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x + 20, (1080 / 2) - currentParticlesPosition.y + 15), currentParticleColor);
-		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleVelocity.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x + 20, (1080 / 2) - currentParticlesPosition.y), currentParticleColor);
-		m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleMass.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x + 20, (1080 / 2) - currentParticlesPosition.y - 15), currentParticleColor);
+		//if (*m_GD->pSpawner->GetParticleAliveState() == true)
+		{
+			m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticlePosition.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x + 20, (1080 / 2) - currentParticlesPosition.y + 15), currentParticleColor);
+			m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleVelocity.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x + 20, (1080 / 2) - currentParticlesPosition.y), currentParticleColor);
+			m_DD2D->m_Font->DrawString(m_DD2D->m_Sprites.get(), Helper::charToWChar(currentParticleMass.c_str()), Vector2((1920 / 2) + currentParticlesPosition.x + 20, (1080 / 2) - currentParticlesPosition.y - 15), currentParticleColor);
+		}
 	}
 	m_DD2D->m_Sprites->End();
 

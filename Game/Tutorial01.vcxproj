@@ -367,7 +367,7 @@
     <ClCompile Include="Trails.cpp" />
     <ClCompile Include="turret_base.cpp" />
     <ClCompile Include="Tutorial01.cpp" />
-    <ClCompile Include="VBSphere.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="VBGO.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -387,6 +387,7 @@
     <ClInclude Include="MyEffectsFactory.h" />
     <ClInclude Include="ObjectList.h" />
     <ClInclude Include="ParticleSpawner.h" />
+    <ClInclude Include="ParticleType.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="snail.h" />
     <ClInclude Include="SpikedVB.h" />
@@ -395,7 +396,7 @@
     <ClInclude Include="tpscamera.h" />
     <ClInclude Include="Trails.h" />
     <ClInclude Include="Turret_base.h" />
-    <ClInclude Include="VBSphere.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="VBGO.h" />
     <ClInclude Include="vertex.h" />
     <ResourceCompile Include="Tutorial01.rc" />

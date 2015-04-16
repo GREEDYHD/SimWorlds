@@ -3,11 +3,12 @@
 #include <dinput.h>
 #include <vector>
 #include "GameData.h"
-#include "VBSphere.h"
+#include "Particle.h"
+#include "ParticleType.h"
 
 using namespace std;
 
-class VBSphere;
+class Particle;
 class ParticleSpawner : public GameObject
 {
 public:
@@ -25,13 +26,18 @@ public:
 	int* GetMaxParticles();
 	int* GetParticleMass();
 	Vector2 GetMousePosition();
+	float* GetGravity();
+	void SetGravity(float _modifier);
+
 protected:
 	int maxParticles;
 	bool usingCircularOrbits;
-	vector<VBSphere *> Particles;
+	vector<Particle *> Particles;
 	Vector3 temp;
 	bool m_runningSimulation;
 	int currentParticle;
+	float m_Gravity;
+	int burn;
 	
 };
 #endif
